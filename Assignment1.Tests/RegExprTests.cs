@@ -47,4 +47,16 @@ public class RegExprTests
         result.Should().BeEquivalentTo("Flower");
     }
 
+    [Fact]
+    public void Urls_returns_URL_and_title_for_HTML_input()
+    {
+        //arrange
+        string html = "<a href=\"https://en.wikipedia.org/wiki/Theoretical_computer_science\" title=\"Theoretical computer science\">theoretical computer science</a> and <a href=\"https://en.wikipedia.org/wiki/Formal_language\" title=\"Formal language\">formal language</a>";
+
+        //act
+        var result = RegExpr.Urls(html);
+
+        //assert
+        result.Should().BeEquivalentTo(new[] { "https://en.wikipedia.org/wiki/Theoretical_computer_science, Theoretical computer science", "https://en.wikipedia.org/wiki/Formal_language, Formal language" });
+    }
 }
