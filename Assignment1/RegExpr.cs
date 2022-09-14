@@ -40,5 +40,28 @@ public static class RegExpr
         }
     }
 
-    public static IEnumerable<string> InnerText(string html, string tag) => throw new NotImplementedException();
+    public static IEnumerable<string> InnerText(string html, string tag)
+    {
+        string _tag = "<" + tag + ">(.*?)</" + tag + ">";
+        var pattern = @_tag;
+
+        var matches = Regex.Matches(html, pattern);
+        foreach (Match v in matches)
+        {
+            yield return v.Groups[1].Value.ToString();
+        }
+    }
+
+    public static IEnumerable<string> Urls(string html)
+    {
+        var pattern = @".?href=""([\d\S]*?)""(.?title=""([\d\W\w]*?)"")?";
+    
+        var matches = Regex.Matches(html, pattern);
+        foreach (Match v in matches)
+        {
+            string _result = "" + v.Groups[1].Value.ToString() + ", " + v.Groups[3].Value.ToString();
+
+            yield return _result;
+        }
+    }
 }
